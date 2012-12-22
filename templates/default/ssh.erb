@@ -1,0 +1,8 @@
+table filter {
+  chain INPUT {
+    <% Array(@port).each do |port| %>
+      proto tcp dport <%= port %> ACCEPT;
+    <% end %>
+  }
+}
+
