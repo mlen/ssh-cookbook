@@ -16,13 +16,13 @@ UsePAM yes
 
 PrintLastLog yes
 
-<% Array(@settings['port']).each do |port| %>
-  Port <%= port %>
-<% end %>
+<%- Array(@settings['port']).each do |port| -%>
+Port <%= port %>
+<%- end -%>
 
-<% Array(@settings['listen']).each do |addr| %>
-  ListenAddress <%= addr %>
-<% end %>
+<%- Array(@settings['listen']).each do |addr| -%>
+ListenAddress <%= addr %>
+<%- end -%>
 
 PermitRootLogin <%= @settings['root_login'] ? 'yes' : 'no' %>
 PubkeyAuthentication <%= @settings['public_key_authentication'] ? 'yes' : 'no' %>
@@ -30,28 +30,36 @@ PasswordAuthentication <%= @settings['password_authentication'] ? 'yes' : 'no' %
 
 AcceptEnv <%= Array(@settings['accept_env']).join(" ") %>
 
-<% if @keep_alive %>
-  TCPKeepAlive yes
-  ClientAliveInterval <%= @timeout %>
-<% end %>
+<%- if @keep_alive -%>
+TCPKeepAlive yes
+ClientAliveInterval <%= @timeout %>
+<%- end -%>
 
-<% if @settings['enable_sftp'] %>
-  Subsystem sftp /usr/lib/openssh/sftp-server
-<% end %>
+<%- if @settings['enable_sftp'] -%>
+Subsystem sftp /usr/lib/openssh/sftp-server
+<%- end -%>
+
+<%- if @settings['x11_forwarding'] -%>
+X11Forwarding yes
+<%- end -%>
+
+<%- unless @settings['agent_forwarding'] -%>
+AllowAgentForwarding no
+<%- end -%>
 
 <% unless Array(@settings['deny_users']).empty? %>
-  DenyUsers <%= Array(@settings['deny_users']).join " " %>
+DenyUsers <%= Array(@settings['deny_users']).join " " %>
 <% end %>
 
 <% unless Array(@settings['allow_users']).empty? %>
-  AllowUsers <%= Array(@settings['allow_users']).join " " %>
+AllowUsers <%= Array(@settings['allow_users']).join " " %>
 <% end %>
 
 <% unless Array(@settings['deny_groups']).empty? %>
-  DenyGroups <%= Array(@settings['deny_groups']).join " " %>
+DenyGroups <%= Array(@settings['deny_groups']).join " " %>
 <% end %>
 
 <% unless Array(@settings['allow_groups']).empty? %>
-  AllowGroups <%= Array(@settings['allow_groups']).join " " %>
+AllowGroups <%= Array(@settings['allow_groups']).join " " %>
 <% end %>
 
