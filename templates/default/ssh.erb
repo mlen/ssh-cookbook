@@ -6,3 +6,11 @@ table filter {
   }
 }
 
+domain ip6 table filter {
+  chain INPUT {
+    <% Array(@port).each do |port| %>
+      proto tcp dport <%= port %> ACCEPT;
+    <% end %>
+  }
+}
+
