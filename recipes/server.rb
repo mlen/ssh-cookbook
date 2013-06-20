@@ -15,12 +15,6 @@ template "/etc/ssh/sshd_config" do
   notifies :restart, "service[ssh]"
 end
 
-include_recipe "ferm"
-
-firewall_include "ssh" do
-  variables :port => defaults['server']['port']
-end
-
 service "ssh" do
   supports :restart => true, :reload => true, :status => true
   action   [:enable, :start]

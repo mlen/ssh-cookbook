@@ -2,10 +2,6 @@
 
 Manages SSH server and client configurations.
 
-## Requirements
-
-* `ferm` cookbook from mlen/ferm-cookbook
-
 ## Configuration
 
 I'd strongly recommend to change the default port from 22 and configure
