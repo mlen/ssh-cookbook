@@ -10,6 +10,7 @@ IgnoreRhosts yes
 RhostsRSAAuthentication no
 HostbasedAuthentication no
 ChallengeResponseAuthentication no
+
 UsePAM yes
 
 PrintLastLog yes
@@ -22,14 +23,15 @@ Port <%= port %>
 ListenAddress <%= addr %>
 <%- end -%>
 
-PermitRootLogin <%= @settings['root_login'] ? 'yes' : 'no' %>
+PermitRootLogin <%= @settings['root_login'] ? 'without-password' : 'no' %>
 PubkeyAuthentication <%= @settings['public_key_authentication'] ? 'yes' : 'no' %>
 PasswordAuthentication <%= @settings['password_authentication'] ? 'yes' : 'no' %>
 
 AcceptEnv <%= Array(@settings['accept_env']).join(" ") %>
 
+TCPKeepAlive no
 <%- if @keep_alive -%>
-TCPKeepAlive yes
+ClientAliveCountMax 5
 ClientAliveInterval <%= @timeout %>
 <%- end -%>
 
@@ -60,4 +62,3 @@ DenyGroups <%= Array(@settings['deny_groups']).join " " %>
 <% unless Array(@settings['allow_groups']).empty? %>
 AllowGroups <%= Array(@settings['allow_groups']).join " " %>
 <% end %>
-
